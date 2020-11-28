@@ -2,6 +2,8 @@ package App;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -47,8 +49,9 @@ public class Pantalla extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+		List<ArrayList> listaBase = new ArrayList<ArrayList>();
 		for (int i = 0; i<51; i++) {
+			List<JLabel> listaS = new ArrayList<JLabel>();
 			for (int j = 0; j<51; j++) {
 				JLabel lblNewLabel = new JLabel((String) null);
 				lblNewLabel.setOpaque(true);
@@ -56,7 +59,9 @@ public class Pantalla extends JFrame {
 				lblNewLabel.setBounds(boundx, boundy, sizex, sizey);
 				contentPane.add(lblNewLabel);
 				boundx+=11;
+				listaS.add(lblNewLabel);
 			}
+			listaBase.add(listaS)
 		boundx=5;
 		boundy+=11;
 		}
