@@ -49,21 +49,22 @@ public class Pantalla extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		List<ArrayList> listaBase = new ArrayList<ArrayList>();
-		for (int i = 0; i<51; i++) {
-			List<JLabel> listaS = new ArrayList<JLabel>();
-			for (int j = 0; j<51; j++) {
+		
+		JLabel[][] listaBase = new JLabel[50][50];
+		for (int i = 0; i<50; i++) {
+			for (int j = 0; j<50; j++) {
 				JLabel lblNewLabel = new JLabel((String) null);
 				lblNewLabel.setOpaque(true);
 				lblNewLabel.setBackground(Color.BLUE);
 				lblNewLabel.setBounds(boundx, boundy, sizex, sizey);
 				contentPane.add(lblNewLabel);
 				boundx+=11;
-				listaS.add(lblNewLabel);
+				listaBase[j][i] =lblNewLabel;
+				System.out.println(listaBase[i][j]);
 			}
-			listaBase.add(listaS)
 		boundx=5;
 		boundy+=11;
+		
 		}
 	}
 }
