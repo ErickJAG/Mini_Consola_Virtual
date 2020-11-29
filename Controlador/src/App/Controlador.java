@@ -15,6 +15,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+
 import net.miginfocom.swing.MigLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,14 +24,22 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.io.*;
+import java.net.Socket;
+
 public class Controlador extends JFrame {
 
 	private JPanel contentPane;
+	private Socket clientSocket;
+	private BufferedReader input;
+	private PrintStream output;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Controlador client = new Controlador();
+		client.run();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -42,7 +51,18 @@ public class Controlador extends JFrame {
 			}
 		});
 	}
-
+	public void run() {
+		try {
+			clientSocket = new Socket("localhost",7935);
+			output = new PrintStream(clientSocket.getOutputStream());
+			output.println("Hi Server");
+			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			String message = input.readLine();
+			System.out.println(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Create the frame.
 	 */
