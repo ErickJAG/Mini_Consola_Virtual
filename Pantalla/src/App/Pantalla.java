@@ -2,6 +2,11 @@ package App;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +17,14 @@ import java.awt.Color;
 import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
 
+import java.io.*;
+import java.net.Socket;
+
 public class Pantalla extends JFrame {
+	
+	private Socket clientSocket;
+	private BufferedReader input;
+	private PrintStream output;
 	
 	int boundx=5;
 	int boundy=5;
@@ -26,6 +38,8 @@ public class Pantalla extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Pantalla client = new Pantalla();
+		client.run();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -37,7 +51,18 @@ public class Pantalla extends JFrame {
 			}
 		});
 	}
-
+	public void run() {
+		try {
+			clientSocket = new Socket("localhost",7935);
+			output = new PrintStream(clientSocket.getOutputStream());
+			output.println("Hi Server");
+			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			String message = input.readLine();
+			System.out.println(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Create the frame.
 	 */
