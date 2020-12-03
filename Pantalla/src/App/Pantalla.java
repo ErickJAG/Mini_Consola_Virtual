@@ -30,7 +30,7 @@ public class Pantalla extends JFrame {
 	int boundy=5;
 	int sizex=10;
 	int sizey=10;
-
+	public static JLabel[][] listaBase = new JLabel[50][50];
 
 	private JPanel contentPane;
 
@@ -45,6 +45,7 @@ public class Pantalla extends JFrame {
 				try {
 					Pantalla frame = new Pantalla();
 					frame.setVisible(true);
+					client.FirstUpdate();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -63,19 +64,34 @@ public class Pantalla extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	public void FirstUpdate() {
+		for (int i = 0; i<50; i++) {
+			for (int j = 0; j<50; j++) {
+				if (matriz[i][j]==3) {
+					listaBase[i][j].setBackground(Color.BLACK);
+					System.out.println("fwjmifm");
+				}
+				else if (matriz[i][j]==4){
+					listaBase[i][j].setBackground(Color.GREEN);
+				}
+				else if (matriz[i][j]==5){
+					listaBase[i][j].setBackground(Color.CYAN);
+				}
+			}
+		}
+	}
 	/**
 	 * Create the frame.
 	 */
 	public Pantalla() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 585, 609);
+		setBounds(100, 100, 572, 596);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel[][] listaBase = new JLabel[50][50];
 		for (int i = 0; i<50; i++) {
 			for (int j = 0; j<50; j++) {
 				JLabel lblNewLabel = new JLabel((String) null);
@@ -84,9 +100,7 @@ public class Pantalla extends JFrame {
 				lblNewLabel.setBounds(boundx, boundy, sizex, sizey);
 				contentPane.add(lblNewLabel);
 				boundx+=11;
-				listaBase[j][i] =lblNewLabel;
-				System.out.println(listaBase[i][j]);
-			}
+				listaBase[i][j] =lblNewLabel;			}
 		boundx=5;
 		boundy+=11;
 		
