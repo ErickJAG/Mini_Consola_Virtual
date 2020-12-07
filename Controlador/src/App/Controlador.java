@@ -11,12 +11,6 @@ import javax.swing.SpringLayout;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.GridLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-
-import net.miginfocom.swing.MigLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,7 +24,7 @@ import java.net.Socket;
 public class Controlador extends JFrame {
 
 	private JPanel contentPane;
-	private Socket clientSocket;
+	static private Socket clientSocket;
 	private BufferedReader input;
 	private PrintStream output;
 	private OutputStream outputStream;
@@ -52,22 +46,30 @@ public class Controlador extends JFrame {
 			}
 		});
 	}
+	ActionListener actionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent describir) {
+			//Validacion para saber cual boton es el presionado
+			 String command = describir.getActionCommand();
+			 try {
+				outputStream = clientSocket.getOutputStream();
+				dataOutputStream = new DataOutputStream(outputStream);
+				dataOutputStream.writeUTF(command);
+				dataOutputStream.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			};
+		};
 	public void run() {
 		try {
 			clientSocket = new Socket("localhost",7935);
-			outputStream = clientSocket.getOutputStream();
-			dataOutputStream = new DataOutputStream(outputStream);
-			dataOutputStream.writeUTF("Hello from the other side!");
-			dataOutputStream.flush();
-			dataOutputStream.writeUTF("Hello from the other side!");
-			dataOutputStream.flush();
-				
-
 			System.out.println("Sending string to the ServerSocket");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -95,6 +97,7 @@ public class Controlador extends JFrame {
 		DPAD.add(DpadM);
 		
 		JButton DPadR = new JButton("");
+		DPadR.setActionCommand("Right");
 		DPadR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -107,9 +110,11 @@ public class Controlador extends JFrame {
 		DPadR.setContentAreaFilled(false);
 		DPadR.setBorderPainted(false);
 		DPadR.setBounds(119, 50, 30, 30);
+		DPadR.addActionListener(actionListener);
 		DPAD.add(DPadR);
 		
 		JButton DPadU = new JButton("");
+		DPadU.setActionCommand("Up");
 		DPadU.setIcon(new ImageIcon(Controlador.class.getResource("/App/DPadUp.png")));
 		DPadU.setOpaque(false);
 		DPadU.setFocusable(false);
@@ -118,9 +123,11 @@ public class Controlador extends JFrame {
 		DPadU.setContentAreaFilled(false);
 		DPadU.setBorderPainted(false);
 		DPadU.setBounds(90, 21, 30, 30);
+		DPadU.addActionListener(actionListener);
 		DPAD.add(DPadU);
 		
 		JButton DPadL = new JButton("");
+		DPadL.setActionCommand("Left");
 		DPadL.setIcon(new ImageIcon(Controlador.class.getResource("/App/DPadLeft.png")));
 		DPadL.setOpaque(false);
 		DPadL.setFocusable(false);
@@ -129,9 +136,11 @@ public class Controlador extends JFrame {
 		DPadL.setContentAreaFilled(false);
 		DPadL.setBorderPainted(false);
 		DPadL.setBounds(61, 50, 30, 30);
+		DPadL.addActionListener(actionListener);
 		DPAD.add(DPadL);
 		
 		JButton DpadD = new JButton("");
+		DpadD.setActionCommand("Down");
 		DpadD.setIcon(new ImageIcon(Controlador.class.getResource("/App/DPadDown.png")));
 		DpadD.setOpaque(false);
 		DpadD.setFocusable(false);
@@ -140,11 +149,12 @@ public class Controlador extends JFrame {
 		DpadD.setContentAreaFilled(false);
 		DpadD.setBorderPainted(false);
 		DpadD.setBounds(90, 79, 30, 30);
+		DpadD.addActionListener(actionListener);
 		DPAD.add(DpadD);
 		
 		JLabel Button = new JLabel("");
 		Button.setIcon(new ImageIcon(Controlador.class.getResource("/App/Button.png")));
-		Button.setBounds(198, 43, 208, 70);
+		Button.setBounds(213, 41, 208, 70);
 		contentPane.add(Button);
 		
 		JLabel Border = new JLabel("");
