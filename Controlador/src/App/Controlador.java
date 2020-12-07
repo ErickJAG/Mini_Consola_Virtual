@@ -33,7 +33,8 @@ public class Controlador extends JFrame {
 	private Socket clientSocket;
 	private BufferedReader input;
 	private PrintStream output;
-
+	private OutputStream outputStream;
+	private DataOutputStream dataOutputStream;
 	/**
 	 * Launch the application.
 	 */
@@ -54,11 +55,15 @@ public class Controlador extends JFrame {
 	public void run() {
 		try {
 			clientSocket = new Socket("localhost",7935);
-			output = new PrintStream(clientSocket.getOutputStream());
-			output.println("Hi Server");
-			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			String message = input.readLine();
-			System.out.println(message);
+			outputStream = clientSocket.getOutputStream();
+			dataOutputStream = new DataOutputStream(outputStream);
+			dataOutputStream.writeUTF("Hello from the other side!");
+			dataOutputStream.flush();
+			dataOutputStream.writeUTF("Hello from the other side!");
+			dataOutputStream.flush();
+				
+
+			System.out.println("Sending string to the ServerSocket");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

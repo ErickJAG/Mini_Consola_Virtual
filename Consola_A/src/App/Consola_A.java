@@ -21,14 +21,14 @@ public class Consola_A {
 		try {
 			serverSocket = new ServerSocket(7935);
 			acceptSocket = serverSocket.accept();
-			
-			
-			output = new PrintStream(acceptSocket.getOutputStream());
-			InputStream inputStream = acceptSocket.getInputStream();
-		        // create a DataInputStream so we can read data from it.
-		    DataInputStream dataInputStream = new DataInputStream(inputStream);
-		    String message = dataInputStream.readUTF();
-		    System.out.println("The message sent from the socket was: " + message);
+			acceptSocket.setKeepAlive(true);
+			while (acceptSocket.isConnected()){
+				InputStream inputStream = acceptSocket.getInputStream();
+			    DataInputStream dataInputStream = new DataInputStream(inputStream);
+			    String message = dataInputStream.readUTF();
+			    System.out.println("The message sent from the socket was: " + message);
+			}
+		
 		    
 		}catch(IOException e) {
 			e.printStackTrace();
