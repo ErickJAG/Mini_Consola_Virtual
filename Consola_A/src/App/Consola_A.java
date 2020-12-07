@@ -24,18 +24,12 @@ public class Consola_A {
 			
 			
 			output = new PrintStream(acceptSocket.getOutputStream());
-			input = new BufferedReader(new InputStreamReader(acceptSocket.getInputStream()));
-			
-			while(acceptSocket.isConnected()) {
-			String message = input.readLine();
-			System.out.println(message);
-			
-			String reply = scan.nextLine();
-			output.println("servidor: "+reply);
-			
-			}
-			
-			
+			InputStream inputStream = acceptSocket.getInputStream();
+		        // create a DataInputStream so we can read data from it.
+		    DataInputStream dataInputStream = new DataInputStream(inputStream);
+		    String message = dataInputStream.readUTF();
+		    System.out.println("The message sent from the socket was: " + message);
+		    
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
