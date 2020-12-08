@@ -106,11 +106,6 @@ public class Pantalla extends JFrame {
 	public void run() {
 		try {
 			clientSocket = new Socket("localhost",7935);
-			output = new PrintStream(clientSocket.getOutputStream());
-			output.println("Hi Server");
-			input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			String message = input.readLine();
-			System.out.println(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -120,7 +115,6 @@ public class Pantalla extends JFrame {
 			for (int j = 0; j<50; j++) {
 				if (matriz[i][j]==3) {
 					listaBase[i][j].setBackground(Color.BLACK);
-					System.out.println("fwjmifm");
 				}
 				else if (matriz[i][j]==4){
 					listaBase[i][j].setBackground(Color.GREEN);
