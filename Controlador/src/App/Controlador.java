@@ -29,6 +29,9 @@ public class Controlador extends JFrame {
 	private PrintStream output;
 	private OutputStream outputStream;
 	private DataOutputStream dataOutputStream;
+	private InputStream inputStream;
+	private DataInputStream dataInputStream;
+	private static Controlador frame = new Controlador();
 	/**
 	 * Launch the application.
 	 */
@@ -38,7 +41,6 @@ public class Controlador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Controlador frame = new Controlador();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +66,10 @@ public class Controlador extends JFrame {
 	public void run() {
 		try {
 			clientSocket = new Socket("localhost",7935);
-			System.out.println("Sending string to the ServerSocket");
+			inputStream = clientSocket.getInputStream();
+		    dataInputStream = new DataInputStream(inputStream);
+		    String message = dataInputStream.readUTF();
+		    frame.setTitle(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,10 +103,6 @@ public class Controlador extends JFrame {
 		
 		JButton DPadR = new JButton("");
 		DPadR.setActionCommand("Right");
-		DPadR.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		DPadR.setIcon(new ImageIcon(Controlador.class.getResource("/App/DPadRight.png")));
 		DPadR.setOpaque(false);
 		DPadR.setFocusable(false);
