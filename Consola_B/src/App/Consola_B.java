@@ -11,6 +11,7 @@ public class Consola_B {
 	private Socket acceptSocket2;
 	private OutputStream outputStream;
 	private DataOutputStream dataOutputStream;
+	private static int contador = 105;
 
 	
 	public static void main(String[]args) {
