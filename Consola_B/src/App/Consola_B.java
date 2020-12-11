@@ -127,4 +127,7 @@ public class Consola_B {
 		}
 			
 	}
+	public void ganar() {
+		//aqui va el codigo para enviar la matrix en jason
+	}
 }
