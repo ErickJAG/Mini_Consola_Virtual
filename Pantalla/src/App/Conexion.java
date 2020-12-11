@@ -9,6 +9,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.json.JSONObject;
+
 import java.awt.Color;
 import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
@@ -43,6 +46,7 @@ public class Conexion extends JFrame {
 		    	inputStream = clientSocket.getInputStream();
 			    dataInputStream = new DataInputStream(inputStream);
 			    message = dataInputStream.readUTF();
+			    frame.UpdateS(message);
 			    System.out.println("Comando recibido: "+message);
 		    }
 		   

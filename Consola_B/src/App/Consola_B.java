@@ -1,8 +1,12 @@
 package App;
 
+import java.awt.List;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.json.JSONObject;
 
 public class Consola_B {
 	
@@ -11,8 +15,9 @@ public class Consola_B {
 	private Socket acceptSocket2;
 	private OutputStream outputStream;
 	private DataOutputStream dataOutputStream;
-	private static int contador = 105;
-
+	private static int [][] laberinto = MatrizLaberinto.matriz;
+	private static int [][] laberintoCopia = MatrizLaberinto.matriz;
+	private static ArrayList<int[]> response = new ArrayList<int[]>();
 	
 	public static void main(String[]args) {
 		Consola_B server = new Consola_B();
@@ -36,14 +41,19 @@ public class Consola_B {
 			dataOutputStream.writeUTF("Console B");
 			dataOutputStream.flush();
 			System.out.println(acceptSocket2);
-			while (acceptSocket1.isConnected()){
+			while (true){
 				InputStream inputStream = acceptSocket1.getInputStream();
 			    DataInputStream dataInputStream = new DataInputStream(inputStream);
 			    String message = dataInputStream.readUTF();
 			    System.out.println("Comando enviado: "+message);
+			    Move(message);
+			    ArrayList<int[]> NewMessage = Compare(response);
+			    JSONObject JSONR=new JSONObject();
+			    JSONR.put("cambios",NewMessage);
+			    String ScreenChange = JSONR.toString();
 			    outputStream = acceptSocket2.getOutputStream();
 				dataOutputStream = new DataOutputStream(outputStream);
-				dataOutputStream.writeUTF(message);
+				dataOutputStream.writeUTF(ScreenChange);
 				dataOutputStream.flush();
 			  
 			}
@@ -53,81 +63,59 @@ public class Consola_B {
 			e.printStackTrace();
 		}
 	}
-	private void pacman(String comando, int [][] matriz) {
-		if (comando == "DpadU") {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
-					if (matriz[i][j] == 8) {
-						if (matriz[i-1][j]!=3) {
-							if (matriz[i-1][j]==6) {
-								contador-=1;
-								if (contador<=0) {
-									System.out.println("ganó");
-								}
-
+	public void Move(String input) {
+		for (int i = 0; i<50; i++) {
+			for (int j = 0; j<50; j++) {
+				if (laberinto[i][j] == 8) {
+					System.out.println(input);
+					if (input.equals("Up")) {
+						if (i>0) {
+							if (laberinto[i-1][j]==3) {
+								laberinto[i-1][j]=8;
+								laberinto[i][j]=3;
 							}
-							matriz[i-1][j] = 8;
-							matriz[i][j] = 0;
-							
 						}
 					}
-					}
-				}
-		}else if (comando == "DpadD") {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
-					if (matriz[i][j] == 8) {
-						if (matriz[i][j+1]!=3) {
-							if (matriz[i][j+1]==6) {
-								contador-=1;
-								if (contador<=0) {
-									System.out.println("ganó");
-								}
+					else if (input.equals("Left")) {
+						if (j>0) {
+							if (laberinto[i][j-1]==3) {
+								laberinto[i][j-1]=8;
+								laberinto[i][j]=3;
 							}
-							matriz[i][j+1] = 8;
-							matriz[i][j] = 0;
 						}
 					}
-					}
-				}
-		}else if(comando == "DpadL") {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
-					if (matriz[i][j] == 8) {
-						if (matriz[i][j-1]!=3) {
-							if (matriz[i][j-1]==6) {
-								contador-=1;
-								if (contador<=0) {
-									System.out.println("ganó");
-								}
+					else if (input.equals("Down")) {
+						if (i<49) {
+							if (laberinto[i+1][j]==3) {
+								laberinto[i+1][j]=8;
+								laberinto[i][j]=3;
 							}
-							matriz[i][j-1] = 8;
-							matriz[i][j] = 0;
 						}
 					}
-					}
-				}
-		}else {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
-					if (matriz[i][j] == 8) {
-						if (matriz[i+1][j]!=3) {
-							if (matriz[i+1][j]==6) {
-								contador-=1;
-								if (contador<=0) {
-									System.out.println("ganó");
-								}
+					else if (input.equals("Right")) {
+						if (j<49) {
+							if (laberinto[i][j+1]==3) {
+								laberinto[i][j+1]=8;
+								laberinto[i][j]=3;
 							}
-							matriz[i+1][j] = 8;
-							matriz[i][j] = 0;
 						}
 					}
-					}
 				}
+			}
 		}
-			
 	}
-	public void ganar() {
-		//aqui va el codigo para enviar la matrix en jason
+	public ArrayList<int[]> Compare(ArrayList<int[]> respuesta) {
+		for (int i = 0; i<50; i++) {
+			for (int j = 0; j<50; j++) {
+				System.out.print(laberinto[i][j]);
+
+				if (!(String.valueOf(laberinto[i][j])).equals(String.valueOf(laberintoCopia[i][j]))) {
+					int [] cambio = {i,j,laberinto[i][j]};
+					respuesta.add(cambio);
+				}
+			}System.out.println();
+		}	
+		return respuesta;
+	
 	}
 }
