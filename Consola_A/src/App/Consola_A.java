@@ -77,7 +77,7 @@ public class Consola_A {
 								}
 
 							}
-							if  (Pacman[i-1][j]==8 && Pacman[i-2][j]!=3 && Pacman[i-2][j+1]!=3) {
+							if  (Pacman[i-1][j]==8 && Pacman[i-2][j]!=3 && Pacman[i-2][j+1]!=3 && Pacman[i-1][j+1]==8 ) {
 								
 								Pacman[i-1][j] = 8;
 								Pacman[i-2][j] = 8;
@@ -85,8 +85,8 @@ public class Consola_A {
 								Pacman[i-2][j+1] = 8;
 								Pacman[i][j] = 0;
 								Pacman[i][j+1] = 0;
-								j+=1;
-								i+=1;
+								j+=4;
+								i+=4;
 								
 								}
 							
@@ -105,15 +105,15 @@ public class Consola_A {
 									System.out.println("ganó");
 								}
 							}
-							if  (Pacman[i+1][j]==8 && Pacman[i+2][j]!=3 && Pacman[i+2][j+1]!=3) {
+							if  (Pacman[i+1][j]==8 && Pacman[i+2][j]!=3 && Pacman[i+2][j+1]!=3&& Pacman[i+1][j+1]==8) {
 								Pacman[i+1][j] = 8;
 								Pacman[i+2][j] = 8;
 								Pacman[i+1][j+1] = 8;
 								Pacman[i+2][j+1] = 8;
 								Pacman[i][j] = 0;
 								Pacman[i][j+1] = 0;
-								j+=1;
-								i+=1;
+								j+=4;
+								i+=4;
 								}
 						}
 					}
@@ -130,17 +130,16 @@ public class Consola_A {
 									System.out.println("ganó");
 								}
 							}
-							if  (Pacman[i][j-1]==8 ) {
+							if  (Pacman[i][j-1]==8 && Pacman[i+1][j-1]==8) {
 								if (Pacman[i+1][j-2]!=3 && Pacman[i][j-2]!=3) {
-									System.out.println(Pacman[i][j-2]);
-									System.out.println(Pacman[i+1][j-2]);
 									Pacman[i][j-1] = 8;
 									Pacman[i][j-2] = 8;
+									Pacman[i][j] = 0;
 									Pacman[i+1][j-1] = 8;
 									Pacman[i+1][j-2] = 8;
-									Pacman[i][j] = 0;
 									Pacman[i+1][j] = 0;
-									i+=2;
+									j+=4;
+									i+=4;
 									}
 								}
 						}
@@ -161,12 +160,14 @@ public class Consola_A {
 							if  (Pacman[i][j+1]==8 && Pacman[i][j+2]!=3 && Pacman[i+1][j+2]!=3) {
 							Pacman[i][j+1] = 8;
 							Pacman[i][j+2] = 8;
+							Pacman[i][j] = 0;
 							Pacman[i+1][j+1] = 8;
 							Pacman[i+1][j+2] = 8;
-							Pacman[i][j] = 0;
 							Pacman[i+1][j] = 0;
-							j+=1;
-							i+=1;
+							j+=4;
+							i+=4;
+							}else {
+								i+=3;
 							}
 							
 							
@@ -175,6 +176,7 @@ public class Consola_A {
 				}
 			}
 		}
+		System.out.println(contador);
 	}
 		
 	
