@@ -1,8 +1,12 @@
 package App;
 
+import java.awt.List;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.json.JSONObject;
 
 public class Consola_A {
 	
@@ -11,7 +15,10 @@ public class Consola_A {
 	private Socket acceptSocket2;
 	private OutputStream outputStream;
 	private DataOutputStream dataOutputStream;
-
+	private static int [][] Pacman = MatrizPacMan.matriz;
+	private static int [][] PacmanCopia = MatrizPacMan.matriz;
+	private static ArrayList<int[]> response = new ArrayList<int[]>();
+	private static int contador = 105;
 	
 	public static void main(String[]args) {
 		Consola_A server = new Consola_A();
@@ -25,24 +32,29 @@ public class Consola_A {
 			acceptSocket1.setKeepAlive(true);
 			outputStream = acceptSocket1.getOutputStream();
 			dataOutputStream = new DataOutputStream(outputStream);
-			dataOutputStream.writeUTF("Console A");
+			dataOutputStream.writeUTF("Console B");
 			dataOutputStream.flush();
 			System.out.println(acceptSocket1);
 			acceptSocket2 = serverSocket.accept();
 			acceptSocket2.setKeepAlive(true);
 			outputStream = acceptSocket2.getOutputStream();
 			dataOutputStream = new DataOutputStream(outputStream);
-			dataOutputStream.writeUTF("Console A");
+			dataOutputStream.writeUTF("Console B");
 			dataOutputStream.flush();
 			System.out.println(acceptSocket2);
-			while (acceptSocket1.isConnected()){
+			while (true){
 				InputStream inputStream = acceptSocket1.getInputStream();
 			    DataInputStream dataInputStream = new DataInputStream(inputStream);
 			    String message = dataInputStream.readUTF();
 			    System.out.println("Comando enviado: "+message);
+			    Move(message);
+			    ArrayList<int[]> NewMessage = Compare(response);
+			    JSONObject JSONR=new JSONObject();
+			    JSONR.put("cambios",NewMessage);
+			    String ScreenChange = JSONR.toString();
 			    outputStream = acceptSocket2.getOutputStream();
 				dataOutputStream = new DataOutputStream(outputStream);
-				dataOutputStream.writeUTF(message);
+				dataOutputStream.writeUTF(ScreenChange);
 				dataOutputStream.flush();
 			  
 			}
@@ -52,4 +64,94 @@ public class Consola_A {
 			e.printStackTrace();
 		}
 	}
+	public static void Move(String comando) {
+		if (comando.equals("DpadU")) {
+			for (int i = 0; i <= 50; i = i ++) {
+				for (int j = 0; j <= 50; j = j ++) {
+					if (Pacman[i][j] == 8) {
+						if (Pacman[i-1][j]!=3) {
+							if (Pacman[i-1][j]==6) {
+								contador-=1;
+								if (contador<=0) {
+									System.out.println("ganó");
+								}
+
+							}
+							Pacman[i-1][j] = 8;
+							Pacman[i][j] = 0;
+							
+						}
+					}
+					}
+				}
+		}else if (comando.equals("DpadD")) {
+			for (int i = 0; i <= 50; i = i ++) {
+				for (int j = 0; j <= 50; j = j ++) {
+					if (Pacman[i][j] == 8) {
+						if (Pacman[i][j+1]!=3) {
+							if (Pacman[i][j+1]==6) {
+								contador-=1;
+								if (contador<=0) {
+									System.out.println("ganó");
+								}
+							}
+							Pacman[i][j+1] = 8;
+							Pacman[i][j] = 0;
+						}
+					}
+					}
+				}
+		}else if(comando.equals("DpadL")) {
+			for (int i = 0; i <= 50; i = i ++) {
+				for (int j = 0; j <= 50; j = j ++) {
+					if (Pacman[i][j] == 8) {
+						if (Pacman[i][j-1]!=3) {
+							if (Pacman[i][j-1]==6) {
+								contador-=1;
+								if (contador<=0) {
+									System.out.println("ganó");
+								}
+							}
+							Pacman[i][j-1] = 8;
+							Pacman[i][j] = 0;
+						}
+					}
+					}
+				}
+		}else {
+			for (int i = 0; i <= 50; i = i ++) {
+				for (int j = 0; j <= 50; j = j ++) {
+					if (Pacman[i][j] == 8) {
+						if (Pacman[i+1][j]!=3) {
+							if (Pacman[i+1][j]==6) {
+								contador-=1;
+								if (contador<=0) {
+									System.out.println("ganó");
+								}
+							}
+							Pacman[i+1][j] = 8;
+							Pacman[i][j] = 0;
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	
+	public ArrayList<int[]> Compare(ArrayList<int[]> respuesta) {
+		for (int i = 0; i<50; i++) {
+			for (int j = 0; j<50; j++) {
+				System.out.print(Pacman[i][j]);
+
+				if (!(String.valueOf(Pacman[i][j])).equals(String.valueOf(PacmanCopia[i][j]))) {
+					int [] cambio = {i,j,Pacman[i][j]};
+					respuesta.add(cambio);
+				}
+			}System.out.println();
+		}	
+		return respuesta;
+	
+	}
 }
+	
