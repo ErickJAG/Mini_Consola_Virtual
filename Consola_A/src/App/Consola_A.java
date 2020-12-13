@@ -65,11 +65,11 @@ public class Consola_A {
 		}
 	}
 	public static void Move(String comando) {
-		if (comando.equals("DpadU")) {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
+		if (comando.equals("Up")) {
+			for (int i = 0; i < 50; i = i + 1) {
+				for (int j = 0; j < 50; j = j + 1) {
 					if (Pacman[i][j] == 8) {
-						if (Pacman[i-1][j]!=3) {
+						if (Pacman[i-1][j]!=3 ) {
 							if (Pacman[i-1][j]==6) {
 								contador-=1;
 								if (contador<=0) {
@@ -77,50 +77,26 @@ public class Consola_A {
 								}
 
 							}
-							Pacman[i-1][j] = 8;
-							Pacman[i][j] = 0;
+							if  (Pacman[i-1][j]==8 && Pacman[i-2][j]!=3 && Pacman[i-2][j+1]!=3) {
+								
+								Pacman[i-1][j] = 8;
+								Pacman[i-2][j] = 8;
+								Pacman[i-1][j+1] = 8;
+								Pacman[i-2][j+1] = 8;
+								Pacman[i][j] = 0;
+								Pacman[i][j+1] = 0;
+								j+=1;
+								i+=1;
+								
+								}
 							
 						}
 					}
 					}
 				}
-		}else if (comando.equals("DpadD")) {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
-					if (Pacman[i][j] == 8) {
-						if (Pacman[i][j+1]!=3) {
-							if (Pacman[i][j+1]==6) {
-								contador-=1;
-								if (contador<=0) {
-									System.out.println("ganó");
-								}
-							}
-							Pacman[i][j+1] = 8;
-							Pacman[i][j] = 0;
-						}
-					}
-					}
-				}
-		}else if(comando.equals("DpadL")) {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
-					if (Pacman[i][j] == 8) {
-						if (Pacman[i][j-1]!=3) {
-							if (Pacman[i][j-1]==6) {
-								contador-=1;
-								if (contador<=0) {
-									System.out.println("ganó");
-								}
-							}
-							Pacman[i][j-1] = 8;
-							Pacman[i][j] = 0;
-						}
-					}
-					}
-				}
-		}else {
-			for (int i = 0; i <= 50; i = i ++) {
-				for (int j = 0; j <= 50; j = j ++) {
+		}else if (comando.equals("Down")) {
+			for (int i = 0; i < 50; i = i + 1) {
+				for (int j = 0; j < 50; j = j + 1) {
 					if (Pacman[i][j] == 8) {
 						if (Pacman[i+1][j]!=3) {
 							if (Pacman[i+1][j]==6) {
@@ -129,8 +105,71 @@ public class Consola_A {
 									System.out.println("ganó");
 								}
 							}
-							Pacman[i+1][j] = 8;
+							if  (Pacman[i+1][j]==8 && Pacman[i+2][j]!=3 && Pacman[i+2][j+1]!=3) {
+								Pacman[i+1][j] = 8;
+								Pacman[i+2][j] = 8;
+								Pacman[i+1][j+1] = 8;
+								Pacman[i+2][j+1] = 8;
+								Pacman[i][j] = 0;
+								Pacman[i][j+1] = 0;
+								j+=1;
+								i+=1;
+								}
+						}
+					}
+					}
+				}
+		}else if(comando.equals("Left")) {
+			for (int i = 0; i < 50; i = i + 1) {
+				for (int j = 0; j < 50; j = j + 1) {
+					if (Pacman[i][j] == 8) {
+						if (Pacman[i][j-1]!=3) {
+							if (Pacman[i][j-1]==6) {
+								contador-=1;
+								if (contador<=0) {
+									System.out.println("ganó");
+								}
+							}
+							if  (Pacman[i][j-1]==8 ) {
+								if (Pacman[i+1][j-2]!=3 && Pacman[i][j-2]!=3) {
+									System.out.println(Pacman[i][j-2]);
+									System.out.println(Pacman[i+1][j-2]);
+									Pacman[i][j-1] = 8;
+									Pacman[i][j-2] = 8;
+									Pacman[i+1][j-1] = 8;
+									Pacman[i+1][j-2] = 8;
+									Pacman[i][j] = 0;
+									Pacman[i+1][j] = 0;
+									i+=2;
+									}
+								}
+						}
+					}
+					}
+				}
+		}else {
+			for (int i = 0; i < 50; i = i + 1) {
+				for (int j = 0; j < 50; j = j + 1) {
+					if (Pacman[i][j] == 8) {
+						if (Pacman[i][j+1]!=3 ) {
+							if (Pacman[i][j+1]==6) {
+								contador-=1;
+								if (contador<=0) {
+									System.out.println("ganó");
+								}
+							}
+							if  (Pacman[i][j+1]==8 && Pacman[i][j+2]!=3 && Pacman[i+1][j+2]!=3) {
+							Pacman[i][j+1] = 8;
+							Pacman[i][j+2] = 8;
+							Pacman[i+1][j+1] = 8;
+							Pacman[i+1][j+2] = 8;
 							Pacman[i][j] = 0;
+							Pacman[i+1][j] = 0;
+							j+=1;
+							i+=1;
+							}
+							
+							
 						}
 					}
 				}
