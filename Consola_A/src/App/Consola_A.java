@@ -17,7 +17,7 @@ public class Consola_A {
 	private DataOutputStream dataOutputStream;
 	private static int [][] Pacman = MatrizPacMan.matriz;
 	private static int [][] PacmanCopia = MatrizPacMan.matriz;
-	private static ArrayList<int[]> response = new ArrayList<int[]>();
+	private static ArrayList<int[][]> response = new ArrayList<int[][]>();
 	private static int contador = 105;
 	
 	public static void main(String[]args) {
@@ -47,8 +47,7 @@ public class Consola_A {
 			    DataInputStream dataInputStream = new DataInputStream(inputStream);
 			    String message = dataInputStream.readUTF();
 			    System.out.println("Comando enviado: "+message);
-			    Move(message);
-			    ArrayList<int[]> NewMessage = Compare(response);
+			    ArrayList<int[][]> NewMessage = Move(message,response);
 			    JSONObject JSONR=new JSONObject();
 			    JSONR.put("cambios",NewMessage);
 			    String ScreenChange = JSONR.toString();
@@ -64,7 +63,7 @@ public class Consola_A {
 			e.printStackTrace();
 		}
 	}
-	public static void Move(String comando) {
+	public  ArrayList<int[][]> Move(String comando,ArrayList<int[][]> respuesta) {
 		if (comando.equals("Up")) {
 			for (int i = 0; i < 50; i = i + 1) {
 				for (int j = 0; j < 50; j = j + 1) {
@@ -87,7 +86,8 @@ public class Consola_A {
 								Pacman[i][j+1] = 0;
 								j+=4;
 								i+=4;
-								
+								int [][] cambio= {{i-2,j,8},{i-2,j+1,8},{i,j,0},{i,j+1,0}};
+								respuesta.add(cambio);
 								}
 							
 						}
@@ -114,6 +114,8 @@ public class Consola_A {
 								Pacman[i][j+1] = 0;
 								j+=4;
 								i+=4;
+								int [][] cambio= {{i+2,j,8},{i+2,j+1,8},{i,j,0},{i,j+1,0}};
+								respuesta.add(cambio);
 								}
 						}
 					}
@@ -140,6 +142,8 @@ public class Consola_A {
 									Pacman[i+1][j] = 0;
 									j+=4;
 									i+=4;
+									int [][] cambio= {{i,j-2,8},{i+1,j-2,8},{i,j,0},{i+1,j,0}};
+									respuesta.add(cambio);
 									}
 								}
 						}
@@ -166,6 +170,8 @@ public class Consola_A {
 							Pacman[i+1][j] = 0;
 							j+=4;
 							i+=4;
+							int [][] cambio= {{i,j+2,8},{i+1,j+2,8},{i,j,0},{i+1,j,0}};
+							respuesta.add(cambio);
 							}else {
 								i+=3;
 							}
@@ -176,23 +182,8 @@ public class Consola_A {
 				}
 			}
 		}
-		System.out.println(contador);
+		return respuesta;
 	}
 		
-	
-	public ArrayList<int[]> Compare(ArrayList<int[]> respuesta) {
-		for (int i = 0; i<50; i++) {
-			for (int j = 0; j<50; j++) {
-				System.out.print(Pacman[i][j]);
-
-				if (!(String.valueOf(Pacman[i][j])).equals(String.valueOf(PacmanCopia[i][j]))) {
-					int [] cambio = {i,j,Pacman[i][j]};
-					respuesta.add(cambio);
-				}
-			}System.out.println();
-		}	
-		return respuesta;
-	
-	}
 }
 	
