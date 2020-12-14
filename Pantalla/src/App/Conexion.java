@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.awt.Color;
@@ -35,7 +36,7 @@ public class Conexion extends JFrame {
 	int sizey=10;
 	public static void main(String[]args) throws IOException{
 			Pantalla frame = new Pantalla();
-			frame.FirstUpdate();
+			frame.Update();
 			frame.setVisible(true);
 			clientSocket = new Socket("localhost",7935);
 			inputStream = clientSocket.getInputStream();

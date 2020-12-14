@@ -89,7 +89,7 @@ public class Pantalla extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame.FirstUpdate();
+					frame.Update();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -98,7 +98,7 @@ public class Pantalla extends JFrame {
 		});
 	}
 
-	public void FirstUpdate() {
+	public void Update() {
 		for (int i = 0; i<50; i++) {
 			for (int j = 0; j<50; j++) {
 				if (matriz[i][j]==3) {
@@ -124,10 +124,31 @@ public class Pantalla extends JFrame {
 		System.out.println(matriz[0][2]);
 	}
 	public void UpdateS(String cambios) {
+		
 		JSONObject Changes = new JSONObject(cambios);
-		JSONArray listaCambios = Changes.getJSONArray("cambios");
-		System.out.println(listaCambios);
+		JSONArray Cambios = Changes.getJSONArray("cambios");
+		JSONArray ListaC = Cambios.getJSONArray(0);
+		for (int i = 0; i<ListaC.length(); i++) {
+			System.out.println(ListaC);
+			if (ListaC.getJSONArray(i).getInt(2)==3) {
+				listaBase[(int)ListaC.getJSONArray(i).getInt(0)][(int)ListaC.getJSONArray(i).getInt(1)].setBackground(Color.BLACK);
+			}
+			else if (ListaC.getJSONArray(i).getInt(2)==4){
+				listaBase[(int)ListaC.getJSONArray(i).getInt(0)][(int)ListaC.getJSONArray(i).getInt(1)].setBackground(Color.GREEN);
+			}
+			else if (ListaC.getJSONArray(i).getInt(2)==5){
+				listaBase[(int)ListaC.getJSONArray(i).getInt(0)][(int)ListaC.getJSONArray(i).getInt(1)].setBackground(Color.CYAN);
+			}
+			else if (ListaC.getJSONArray(i).getInt(2)==6){
+				listaBase[(int)ListaC.getJSONArray(i).getInt(0)][(int)ListaC.getJSONArray(i).getInt(1)].setBackground(Color.WHITE);
+			}
+			else if (ListaC.getJSONArray(i).getInt(2)==8){
+				listaBase[(int)ListaC.getJSONArray(i).getInt(0)][(int)ListaC.getJSONArray(i).getInt(1)].setBackground(Color.YELLOW);
+			}
+			
+		}
 	}
+
 	/**
 	 * Create the frame.
 	 */
