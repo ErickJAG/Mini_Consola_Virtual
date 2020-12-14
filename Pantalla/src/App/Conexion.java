@@ -36,7 +36,6 @@ public class Conexion extends JFrame {
 	int sizey=10;
 	public static void main(String[]args) throws IOException{
 			Pantalla frame = new Pantalla();
-			frame.Update();
 			frame.setVisible(true);
 			clientSocket = new Socket("localhost",7935);
 			inputStream = clientSocket.getInputStream();
@@ -48,7 +47,6 @@ public class Conexion extends JFrame {
 			    dataInputStream = new DataInputStream(inputStream);
 			    message = dataInputStream.readUTF();
 			    frame.UpdateS(message);
-			    System.out.println("Comando recibido: "+message);
 		    }
 		   
 		    
