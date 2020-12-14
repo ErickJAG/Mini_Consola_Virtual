@@ -52,15 +52,20 @@ public class Consola_B {
 			dataOutputStream.flush();
 			//Ciclo para enviar/recibir mensajes
 			while (true){
+				//Recepcion de mensaje enviado por controlador
 				InputStream inputStream = acceptSocket1.getInputStream();
 			    DataInputStream dataInputStream = new DataInputStream(inputStream);
 			    String message = dataInputStream.readUTF();
+			    JSONObject ComandoR = new JSONObject(message);
+			    System.out.println(ComandoR);
+			    String command = (ComandoR.getString("comando")).toString();
+			    //Variables esenciales para la creacion del nuevo mensaje
 			    ArrayList<int[][]> response = new ArrayList<int[][]>();
-			    ArrayList<int[][]> NewMessage = Move(message,response);
+			    ArrayList<int[][]> NewMessage = Move(command,response);
 			    //Validacion en caso de victoria para no enviar mensajes
 			    if (NewMessage.size()>0) {
 			    	if (laberinto[42][0] != 8) {
-			    		System.out.println("Comando realizado: "+message);
+			    		System.out.println("Comando realizado: "+command);
 			    		JSONObject JSONR=new JSONObject();
 					    JSONR.put("cambios",NewMessage);
 					    String ScreenChange = JSONR.toString();

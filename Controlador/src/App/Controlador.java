@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.json.JSONObject;
+
 import java.awt.Color;
 import javax.swing.SpringLayout;
 import javax.swing.JButton;
@@ -55,7 +58,10 @@ public class Controlador extends JFrame {
 			 try {
 				outputStream = clientSocket.getOutputStream();
 				dataOutputStream = new DataOutputStream(outputStream);
-				dataOutputStream.writeUTF(command);
+				JSONObject comando = new JSONObject();
+				comando.put("comando",command);
+				String mensaje = comando.toString();
+				dataOutputStream.writeUTF(mensaje);
 				dataOutputStream.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
