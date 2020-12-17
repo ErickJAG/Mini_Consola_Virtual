@@ -51,6 +51,7 @@ public class Controlador extends JFrame {
 			}
 		});
 	}
+	//Comando que realizan los botones
 	ActionListener actionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent describir) {
 			//Validacion para saber cual boton es el presionado
@@ -69,6 +70,7 @@ public class Controlador extends JFrame {
 			}
 			};
 		};
+	//Funcion que conecta el socket al servidor
 	public void run() {
 		try {
 			clientSocket = new Socket("localhost",7935);
@@ -81,9 +83,7 @@ public class Controlador extends JFrame {
 		}
 	}
 	
-	/**
-	 * Create the frame.
-	 */
+	//Creacion de la ventana
 	public Controlador() {
 		setResizable(false);
 		setBackground(Color.BLACK);

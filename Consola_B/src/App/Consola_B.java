@@ -86,6 +86,7 @@ public class Consola_B {
 	}
 	//Funcion que prepara el mensaje con los movimientos realizados
 	public ArrayList<int[][]> Move(String input,ArrayList<int[][]> respuesta) {
+		//Aca se valida el input recibido para leer la matriz en direcciones diferentes para evitar errores
 		if (input.equals("Up") || input.equals("Left")) {
 			for (int i = 0; i<50; i++) {
 				for (int j = 0; j<50; j++) {

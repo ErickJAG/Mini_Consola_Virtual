@@ -23,17 +23,11 @@ import java.net.Socket;
 public class Conexion extends JFrame {
 	
 	private static Socket clientSocket;
-	private static BufferedReader input;
-	private static PrintStream output;
-	private static OutputStream outputStream;
-	private static DataOutputStream dataOutputStream;
 	private static InputStream inputStream;
 	private static DataInputStream dataInputStream;
 
-	int boundx=5;
-	int boundy=5;
-	int sizex=10;
-	int sizey=10;
+	
+	//Funcion que crea la conexion al server y envia los mensajes a la pantalla
 	public static void main(String[]args) throws IOException{
 			Pantalla frame = new Pantalla();
 			frame.setVisible(true);
@@ -42,7 +36,8 @@ public class Conexion extends JFrame {
 		    dataInputStream = new DataInputStream(inputStream);
 		    String message = dataInputStream.readUTF();
 		    frame.setTitle(message);
-		    while (true) {				
+		    while (true) {		
+		    	//Recepcion del mensaje y envio a pantalla
 		    	inputStream = clientSocket.getInputStream();
 			    dataInputStream = new DataInputStream(inputStream);
 			    message = dataInputStream.readUTF();

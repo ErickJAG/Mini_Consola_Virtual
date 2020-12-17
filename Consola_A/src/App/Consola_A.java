@@ -58,31 +58,33 @@ public class Consola_A {
 			    String message = dataInputStream.readUTF();
 			    JSONObject ComandoR = new JSONObject(message);
 			    String command = (ComandoR.getString("comando")).toString();
+			    if (contador != 0) {
 			    //Variables esenciales para la creacion del nuevo mensaje
 			    ArrayList<int[][]> response = new ArrayList<int[][]>();
 			    ArrayList<int[][]> NewMessage = Move(command,response);
 			    //Validacion en caso de victoria para no enviar mensajes
 			    if (NewMessage.size()>0) {
-			    	if (contador != 0) {
-			    		System.out.println("Comando realizado: "+command);
-			    		JSONObject JSONR=new JSONObject();
-					    JSONR.put("cambios",NewMessage);
-					    String ScreenChange = JSONR.toString();
-						dataOutputStream.writeUTF(ScreenChange);
-						dataOutputStream.flush();
-			    	}
+		    		System.out.println("Comando realizado: "+command);
+		    		JSONObject JSONR=new JSONObject();
+				    JSONR.put("cambios",NewMessage);
+				    String ScreenChange = JSONR.toString();
+					dataOutputStream.writeUTF(ScreenChange);
+					dataOutputStream.flush();			    	
 			    }
 			    else {
 			    	System.out.println("No hubo movimiento");
 			    }
-			  
+			  }
 			}
 			
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
+	//Funcion que prepara el mensaje con los cambios
 	public  ArrayList<int[][]> Move(String comando,ArrayList<int[][]> respuesta) {
+		//Aca se valida el input recibido para leer la matriz en direcciones diferentes para evitar errores
+		//Tambien se valida que al moverse se tome una comida para bajar el contador
 		if (comando.equals("Up")) {
 			for (int i = 0; i < 50; i = i + 1) {
 				for (int j = 0; j < 50; j = j + 1) {
@@ -105,8 +107,8 @@ public class Consola_A {
 								Pacman[i][j+1] = 0;
 								int [][] cambio= {{i-2,j,8},{i-2,j+1,8},{i,j,0},{i,j+1,0}};
 								respuesta.add(cambio);
-								j+=4;
-								i+=4;
+								j+=2;
+								i+=2;
 								}
 							
 						}
@@ -118,7 +120,7 @@ public class Consola_A {
 				for (int j = 0; j < 50; j = j + 1) {
 					if (Pacman[i][j] == 8) {
 						if (Pacman[i+1][j]!=3) {
-							if (Pacman[i+1][j]==6) {
+							if (Pacman[i+2][j]==6 || Pacman[i+2][j+1]==6) {
 								contador-=1;
 								if (contador<=0) {
 									System.out.println("gano");
@@ -134,8 +136,8 @@ public class Consola_A {
 								
 								int [][] cambio= {{i+2,j,8},{i+2,j+1,8},{i,j,0},{i,j+1,0}};
 								respuesta.add(cambio);
-								j+=4;
-								i+=4;
+								j+=2;
+								i+=2;
 								}
 						}
 					}
@@ -146,7 +148,7 @@ public class Consola_A {
 				for (int j = 0; j < 50; j = j + 1) {
 					if (Pacman[i][j] == 8) {
 						if (Pacman[i][j-1]!=3) {
-							if (Pacman[i][j-1]==6) {
+							if (Pacman[i][j-1]==6 || Pacman[i+1][j-1]==6) {
 								contador-=1;
 								if (contador<=0) {
 									System.out.println("gano");
@@ -163,8 +165,8 @@ public class Consola_A {
 									
 									int [][] cambio= {{i,j-2,8},{i+1,j-2,8},{i,j,0},{i+1,j,0}};
 									respuesta.add(cambio);
-									j+=4;
-									i+=4;
+									j+=2;
+									i+=2;
 									}
 								}
 						}
@@ -176,7 +178,7 @@ public class Consola_A {
 				for (int j = 0; j < 50; j = j + 1) {
 					if (Pacman[i][j] == 8) {
 						if (Pacman[i][j+1]!=3 ) {
-							if (Pacman[i][j+1]==6) {
+							if (Pacman[i][j+2]==6 || Pacman[i+1][j+2]==6) {
 								contador-=1;
 								if (contador<=0) {
 									System.out.println("gano");
@@ -192,10 +194,10 @@ public class Consola_A {
 							
 							int [][] cambio= {{i,j+2,8},{i+1,j+2,8},{i,j,0},{i+1,j,0}};
 							respuesta.add(cambio);
-							j+=4;
-							i+=4;
+							j+=2;
+							i+=2;
 							}else {
-								i+=3;
+								i+=2;
 							}
 							
 							

@@ -46,7 +46,8 @@ public class Pantalla extends JFrame {
 			}
 		});
 	}
-
+	
+	//Funcion que cambia los pixeles conforme al mensaje recibido
 	public void UpdateS(String cambios) {
 		
 		JSONObject Changes = new JSONObject(cambios);
@@ -75,9 +76,7 @@ public class Pantalla extends JFrame {
 		}
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	//Creacion de la ventana
 	public Pantalla() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 572, 596);
